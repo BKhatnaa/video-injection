@@ -2,7 +2,7 @@
 import cv2
  
 # Opens the Video file
-cap= cv2.VideoCapture('book.mov')
+cap= cv2.VideoCapture('phone.mov')
 i=0
 while(cap.isOpened()):
     ret, frame = cap.read()
@@ -28,6 +28,7 @@ images = os.listdir("frames/")
 i = 0
 for imagename in images:
     # gray = cv2.cvtColor(image, cv2.COLOR_BGRA2GRAY)
+    imageid = imagename.split("_")[1].replace(".jpg", "")
     image = cv2.imread("frames/" + imagename)
     gray = cv2.bitwise_not(image)
     gray = cv2.cvtColor(gray, cv2.COLOR_BGRA2GRAY)
@@ -84,9 +85,9 @@ for imagename in images:
     dst = cv2.add(img1_bg,img2_fg)
     try:
         img1[a:a+100, c:c+100 ] = cv2.add(img2_fg, img1[a:a+100, c:c+100 ])
-        cv2.imwrite("added/added_" + str(i) + ".png", img1)
+        cv2.imwrite("added/added_" + imageid + ".png", img1)
     except:
-        cv2.imwrite("added/added_" + str(i) + ".png", image)
+        cv2.imwrite("added/added_" + imageid + ".png", image)
         # print("Error")
         continue
     # img1[c0:c0+100, c1:c1+100 ] = cv2.add(img2_fg, img1[c0:c0+100, c1:c1+100 ])
@@ -97,14 +98,19 @@ import numpy as np
 import glob
 import os
 img_array = []
-for filename in os.listdir("added"):
-    img = cv2.imread(filename)
-    # height, width, layers = img.shape
-    size = (720,1080)
+i = 0
+for filename in os.listdir("added/"):
+    filename = "added_{}.png".format(i)
+    img = cv2.imread("added/" + filename)
+    height, width, layers = img.shape
+    # size = (1080,720)
+    size = (width,height)
     img_array.append(img)
+    i = i + 1
  
 fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-out = cv2.VideoWriter('project.mov',fourcc, 15, size)
+# fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('project.mov',fourcc, 30, size)
  
 for i in range(len(img_array)):
     out.write(img_array[i])
