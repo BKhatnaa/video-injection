@@ -56,14 +56,22 @@ for imagename in images:
     image1=255-image1
     # cv2.imwrite("test_gray_im.png", image1)
     nz = cv2.findNonZero(image1)
-    a = int(nz[:,0,0].mean())
-    b = nz[:,0,0].max()
-    c = int(nz[:,0,1].mean())
-    d = nz[:,0,1].max()
-    c0 = (a+b)/2
-    c1 = (c+d)/2
-    c0 = int(c0)
-    c1 = int(c1)
+    try:
+        a = int(nz[:,0,0].mean())
+        b = nz[:,0,0].max()
+        c = int(nz[:,0,1].mean())
+        d = nz[:,0,1].max()
+        c0 = (a+b)/2
+        c1 = (c+d)/2
+        c0 = int(c0)
+        c1 = int(c1)
+    except:
+        a = 0
+        b = 0
+        c = 0
+        d = 0
+        c0 = 0
+        c1 = 0
     # print(c0, c1)
     img1 = cv2.imread('frames/' + imagename)
     img2 = cv2.imread('cola.png')
@@ -110,7 +118,7 @@ for filename in os.listdir("added/"):
  
 fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
 # fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('project.mov',fourcc, 30, size)
+out = cv2.VideoWriter('project1.mov',fourcc, 30, size)
  
 for i in range(len(img_array)):
     out.write(img_array[i])
