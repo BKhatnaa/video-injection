@@ -1,4 +1,3 @@
-import the necessary packages
 import cv2
 import torch
 from torch import Tensor
@@ -105,12 +104,15 @@ for imagename in images:
                 img2_fg = cv2.bitwise_and(img2,img2,mask = mask1)
                 dst = cv2.add(img1_bg,img2_fg)
                 try:
+                    a = a - 100
+                    c = c - 100
                     img1[a:a+100, c:c+100 ] = cv2.add(img2_fg, img1[a:a+100, c:c+100 ])
+                    cv2.imwrite("added/added_" + imageid + ".png", img1)
+                    print(pred_class)
                 except:
                     image = cv2.imread("frames/" + imagename)
                     cv2.imwrite("added/added_" + imageid + ".png", image)
                     continue
-                cv2.imwrite("added/added_" + imageid + ".png", img1)
             else:
                 image = cv2.imread("frames/" + imagename)
                 cv2.imwrite("added/added_" + imageid + ".png", image)
@@ -140,7 +142,7 @@ for filename in os.listdir("added/"):
  
 fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
 # fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('cup_added.mov',fourcc, 30, size)
+out = cv2.VideoWriter('cup_added_1.mov',fourcc, 30, size)
  
 for i in range(len(img_array)):
     out.write(img_array[i])
