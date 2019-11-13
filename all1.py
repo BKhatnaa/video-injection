@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 import torchvision.models as models
 import torchvision
 # Opens the Video file
-cap= cv2.VideoCapture('cup.mov')
+cap= cv2.VideoCapture('phone.mov')
 i=0
 while(cap.isOpened()):
     ret, frame = cap.read()
@@ -85,7 +85,7 @@ for imagename in images:
     if len(pred_class) != 0:
         for class_index in range(len(pred_class)):
             imageid = imagename.split("_")[1].replace(".jpg", "")
-            if pred_class[class_index] == 'cup':
+            if pred_class[class_index] == 'cell phone':
                 x0 = pred_boxes[class_index][0][0]
                 y0 = pred_boxes[class_index][0][1]
                 x1 = pred_boxes[class_index][1][0]
@@ -93,7 +93,7 @@ for imagename in images:
                 a = int((x0+x1)/2)
                 c = int((y0+y1)/2)
                 img1 = cv2.imread('frames/' + imagename)
-                img2 = cv2.imread('cola.png')
+                img2 = cv2.imread('cola1.png')
                 rows,cols,channels = img2.shape
                 roi = img1[0:rows, 0:cols ]
                 img2gray = cv2.bitwise_not(img2)
@@ -104,12 +104,11 @@ for imagename in images:
                 img2_fg = cv2.bitwise_and(img2,img2,mask = mask1)
                 dst = cv2.add(img1_bg,img2_fg)
                 try:
-                    a = a - 100
-                    c = c - 100
-                    img1[a:a+100, c:c+100 ] = cv2.add(img2_fg, img1[a:a+100, c:c+100 ])
+                    img1[a:a+176, c:c+287 ] = cv2.add(img2_fg, img1[a:a+176, c:c+287 ])
                     cv2.imwrite("added/added_" + imageid + ".png", img1)
                     print(pred_class)
                 except:
+                    print("error")
                     image = cv2.imread("frames/" + imagename)
                     cv2.imwrite("added/added_" + imageid + ".png", image)
                     continue
@@ -142,7 +141,7 @@ for filename in os.listdir("added/"):
  
 fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
 # fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('cup_added_1.mov',fourcc, 30, size)
+out = cv2.VideoWriter('phone_added.mov',fourcc, 30, size)
  
 for i in range(len(img_array)):
     out.write(img_array[i])
