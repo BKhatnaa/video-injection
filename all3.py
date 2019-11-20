@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 import torchvision.models as models
 import torchvision
 # Opens the Video file
-cap= cv2.VideoCapture('phone.mov')
+cap= cv2.VideoCapture('phone_1.mov')
 i=0
 while(cap.isOpened()):
     ret, frame = cap.read()
@@ -84,28 +84,24 @@ for imagename in images:
         pred_boxes = []
         pred_class = []
     for class_index in range(len(pred_class)):
-        imageid = imagename.split("_")[1].replace(".jpg", "")
+        # imageid = imagename.split("_")[1].replace(".jpg", "")
         if pred_class[class_index] == 'cell phone':
             x0 = pred_boxes[class_index][0][0]
             y0 = pred_boxes[class_index][0][1]
             x1 = pred_boxes[class_index][1][0]
             y1 = pred_boxes[class_index][1][1]
+            print("Found", x0, y0, x1, y1)
             # a = int((x0+x1)/2)
             # c = int((y0+y1)/2)
-        else:
-            x0 = 0
-            y0 = 0
-            x1 = 0
-            y1 = 0
-    if x0 == 0 and y0 == 0 and x1 == 0 and y1 == 0: 
-        preds.append([i, img_path, 0, 0, 0, 0])
-    else:
+    if x0 != None and y0 != None and x1 != None and y1 != None: 
         preds.append([i, img_path, x0, y0, x1, y1])
+    else:
+        preds.append([i, img_path, 0, 0, 0, 0])
     print(img_path, i)
     i = i + 1
 # print(preds)
 df = pd.DataFrame(preds, columns=["id", "path", "x0", "y0", "x1", "y1"])
-df.to_csv("prediction.csv", index=False)
+df.to_csv("prediction_1.csv", index=False)
 # import cv2
 # import numpy as np
 # import glob

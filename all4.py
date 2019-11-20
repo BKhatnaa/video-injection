@@ -15,7 +15,7 @@ for row in df.values:
     img1 = cv2.imread(img_path)
     img2 = cv2.imread('cola1.png')
     rows,cols,channels = img2.shape
-    roi = img1[0:rows, 0:cols ]
+    roi = img1[0:rows, 0:cols]
     img2gray = cv2.bitwise_not(img2)
     img2gray = cv2.cvtColor(img2gray,cv2.COLOR_BGR2GRAY)
     ret, mask1 = cv2.threshold(img2gray, 150, 255, cv2.THRESH_BINARY)
