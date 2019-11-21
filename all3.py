@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 import torchvision.models as models
 import torchvision
 # Opens the Video file
-cap= cv2.VideoCapture('phone_1.mov')
+cap= cv2.VideoCapture('turshilt_2.mov')
 i=0
 while(cap.isOpened()):
     ret, frame = cap.read()
@@ -101,7 +101,7 @@ for imagename in images:
     i = i + 1
 # print(preds)
 df = pd.DataFrame(preds, columns=["id", "path", "x0", "y0", "x1", "y1"])
-df.to_csv("prediction_1.csv", index=False)
+df.to_csv("prediction_2.csv", index=False)
 # import cv2
 # import numpy as np
 # import glob

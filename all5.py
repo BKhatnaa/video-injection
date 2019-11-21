@@ -33,9 +33,8 @@ for row in df.values:
     for rect in rects:
         x,y,w,h = rect
         area = w * h
-        if area == 128316:
-            conts.append([area, x, y, w, h])
-            areas.append(area)
+        conts.append([area, x, y, w, h])
+        areas.append(area)
     max_area = max(areas)
     print(max_area)
     for i in conts:
@@ -47,35 +46,34 @@ for row in df.values:
             w = i[3]
             h = i[4]
             cv2.rectangle(img1, (x,y), (x+w, y+h), (0,255,0), 2)
-            cv2.imwrite("binary.jpg", img1)
+            filname = "added/added_{}.jpg".format(row[0])
+            cv2.imwrite(filname, img1)
     # orig_img = cv2.imread(row[1])
     # cv2.rectangle(img1, (x,y), (x+w, y+h), (0,255,0), 2)
     # cv2.imwrite("binary.jpg", img1)
-    break
+    # break
     
 
-# import cv2
-# import numpy as np
-# import glob
-# import os
-# img_array = []
-# i = 0
-# for filename in os.listdir("added/"):
-#     try:
-#         filename = "added_{}.jpg".format(i)
-#         img = cv2.imread("added/" + filename)
-#         height, width, layers = img.shape
-#     # size = (1080,720)
-#         size = (width,height)
-#         img_array.append(img)
-#     except:
-#         continue
-#     i = i + 1
+import cv2
+import numpy as np
+import glob
+import os
+img_array = []
+i = 0
+for filename in os.listdir("added/"):
+    filename = "added_{}.jpg".format(i)
+    img = cv2.imread("added/" + filename)
+    img = cv2.resize(img, (550,300))
+    height, width, layers = img.shape
+# size = (1080,720)
+    size = (width,height)
+    img_array.append(img)
+    i = i + 1
  
-# fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-# # fourcc = cv2.VideoWriter_fourcc(*'XVID')
-# out = cv2.VideoWriter('phone_added1.mov',fourcc, 30, size)
+fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+# fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('display.mov',fourcc, 30, size)
  
-# for i in range(len(img_array)):
-#     out.write(img_array[i])
-# out.release()
+for i in range(len(img_array)):
+    out.write(img_array[i])
+out.release()
